@@ -13,9 +13,10 @@ client = database.Calls(url=DB_URL, header=DB_HEADERS)
 
 
 @router.post("/get", status_code=status.HTTP_200_OK, response_model=list[scheduleCall])
-def get_Calls(params: dict, token=str):
+async def get_Calls(params: dict, token: str):
     if token != TOKEN:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail='Token is not valid')
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail='Token is not valid')
     try:
         return client.show(**params)
     except Exception as e:
